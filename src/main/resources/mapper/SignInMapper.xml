@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fotron.draw.mapper.SignInMaper">
+    <resultMap id="BaseResultMap" type="com.fotron.draw.entity.SignIn">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="last_sign_in_date" property="lastSignInDate" jdbcType="TIMESTAMP"/>
+        <result column="first_sign_in_date" property="firstSignInDate" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="days" property="days" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="selectSignInByUserId" resultMap="BaseResultMap">
+        select * from dw_sign_in where user_id=#{userId}
+    </select>
+</mapper>

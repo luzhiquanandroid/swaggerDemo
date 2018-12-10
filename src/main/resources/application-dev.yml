@@ -1,0 +1,52 @@
+#开发库
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://47.94.107.37:3306/wx_game_box?useUnicode=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=CTT
+    username: root
+    password: tianshenjrblock
+    type: com.alibaba.druid.pool.DruidDataSource
+  redis:
+    host: 47.94.107.37
+    password: blockchains
+    port: 6379
+    database: 1
+
+#游戏榜钻石
+diamond:
+  diamondUrl: http://127.0.0.1:9455/api/guest/diamond  #获取钻石
+  diamondReportUrl: http://127.0.0.1:9455/api/guest/diamondReport  #钻石上报
+#用户中心登录
+user:
+  url : http://127.0.0.1:9465/api/wx/v1/login  #用户中心
+phone:
+   recharge : https://bsb-dev.imsidang.com/api/telrechange/phoneNumRecharge   #话费充值
+   callbackUrl : https://game-draw-dev.bushubao.cn/api/phone/callback
+#默认头像
+defaultImage: https://rr.bushubao.cn/step_trade/game/game_20180827201414.png
+
+qiniu:
+  accessKey: ex9ynhyWX6RyknFQWl0RcMtf2VHElv62Dsa430Eb
+  secretKey: YN6DqetlJvkWVRyakVhc7vIEbNt-GavdLOkdSA2U
+  bucket:  test-uploads
+  path: http://pj1tfpjpr.bkt.clouddn.com
+
+#微信
+wx.appId: wxf63dc64e22435089
+wx.secret: feb0459f8627526b4a27ee5c69282d59
+#接口加解密
+draw:
+  appId: 20181130
+  appSecret: e665b8da93e44f40918953137eab49bd
+
+
+logging:
+  level:
+    com.fotron.draw.mapper: DEBUG
+
+
+
+
+
+
+

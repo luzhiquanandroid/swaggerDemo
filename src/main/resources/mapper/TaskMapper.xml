@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fotron.draw.mapper.TaskMapper">
+    <resultMap id="BaseResultMap" type="com.fotron.draw.entity.Task">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="desc" property="desc" jdbcType="VARCHAR"/>
+        <result column="img_url" property="imgUrl" jdbcType="VARCHAR"/>
+        <result column="time" property="time" jdbcType="INTEGER"/>
+        <result column="task_type" property="taskType" jdbcType="INTEGER"/>
+        <result column="sort_order" property="sortOrder" jdbcType="INTEGER"/>
+        <result column="award_value" property="awardValue" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="app_id" property="appId" jdbcType="VARCHAR"/>
+        <result column="game_link" property="gameLink" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!--查询所有任务-->
+    <select id="selectAllList" resultMap="BaseResultMap">
+        select * from dw_task where status=1 order by sort_order
+    </select>
+
+    <select id="selectByTaskId"  resultMap="BaseResultMap">
+        SELECT * FROM dw_task WHERE id=#{id}
+
+    </select>
+</mapper>

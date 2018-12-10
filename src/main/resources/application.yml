@@ -1,0 +1,28 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: draw
+  mvc:
+    throw-exception-if-no-handler-found: true
+    favicon:
+      enabled: false
+  aop:
+    proxy-target-class: true
+
+server:
+  port: 9500
+pagehelper:
+  reasonable: flase
+
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true
+
+request:
+  loging:
+    filter:
+      ignore: /health;
+
+
+

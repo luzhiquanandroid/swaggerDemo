@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fotron.draw.mapper.RechargeRecordMapper">
+    <resultMap id="BaseResultMap" type="com.fotron.draw.entity.RechargeRecord">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="amount" property="amount" jdbcType="INTEGER"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <update id="updateStatus">
+    UPDATE dw_recharge_record SET status=#{status} WHERE status=0 AND id=#{id}
+    </update>
+    <!--根据订单号查询充值记录-->
+    <select id="selectByOrderId" resultMap="BaseResultMap">
+        SELECT * FROM dw_recharge_record WHERE order_id=#{orderId} ORDER BY id DESC  limit 1
+
+    </select>
+
+    <!--根据用户id查询话费记录-->
+    <select id="selectByUserIdList" resultMap="BaseResultMap">
+        select * from dw_recharge_record where user_id=#{userId} and status=1 ORDER BY update_time DESC
+    </select>
+
+
+</mapper>

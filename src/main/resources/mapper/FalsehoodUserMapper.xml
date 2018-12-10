@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fotron.draw.mapper.FalsehoodUserMapper">
+    <resultMap id="BaseResultMap" type="com.fotron.draw.entity.FalsehoodUser">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="open_id" property="openId" jdbcType="VARCHAR"/>
+        <result column="source" property="source" jdbcType="INTEGER"/>
+        <result column="nickname" property="nickname" jdbcType="VARCHAR"/>
+        <result column="head_image" property="headImage" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="INTEGER"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="country" property="country" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="selectByOpenId" resultMap="BaseResultMap">
+
+        SELECT * FROM  dep_user WHERE open_id=#{openId} ORDER BY id DESC limit 1
+
+    </select>
+
+    <select id="selectByRanod20" resultMap="BaseResultMap">
+
+          SELECT u.nickname,u.head_image FROM  dep_user u WHERE u.head_image!='' AND u.nickname!=''   ORDER BY RAND() limit 16
+    </select>
+</mapper>

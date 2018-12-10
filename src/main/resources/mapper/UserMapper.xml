@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fotron.draw.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.fotron.draw.entity.User">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="open_id" property="openId" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="telephone_fare" property="telephoneFare" jdbcType="DECIMAL"/>
+        <result column="diamond" property="diamond" jdbcType="INTEGER"/>
+        <result column="authorize_flag" property="authorizeFlag" jdbcType="INTEGER"/>
+        <result column="nickname" property="nickname" jdbcType="VARCHAR"/>
+        <result column="source" property="source" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="head_image" property="headImage" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="INTEGER"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="country" property="country" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP"/>
+        <result column="level" property="level" jdbcType="INTEGER"/>
+    </resultMap>
+    <!--根据userId获取用户-->
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        SELECT * FROM  dw_user WHERE user_id=#{userId} ORDER BY id DESC limit 1
+    </select>
+
+    <!--根据openId获取用户-->
+    <select id="selectByOpenId" resultMap="BaseResultMap">
+        SELECT * FROM  dw_user WHERE open_id=#{openId} ORDER BY id DESC limit 1
+    </select>
+
+    <!--根据用户id添加话费-->
+    <update id="updateTelephoneFareById">
+        UPDATE dw_user  SET telephone_fare=#{afterTelephoneFare},update_time=#{date}
+        WHERE user_id=#{userId} AND telephone_fare=#{beforeTelephoneFare}
+    </update>
+
+
+    <!--根据用户id添加钻石-->
+    <update id="updateDiamondByUserId">
+        UPDATE dw_user  SET diamond=#{afterDiamond},update_time=#{date}
+         WHERE user_id=#{userId} AND diamond=#{beforeDiamond}
+    </update>
+
+    <!--根据openId获取用户-->
+    <select id="selectLess100Users" resultMap="BaseResultMap">
+        SELECT * FROM  dw_user WHERE diamond&lt;100 and status=1 and authorize_flag=1
+    </select>
+</mapper>

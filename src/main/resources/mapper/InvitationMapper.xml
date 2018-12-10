@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fotron.draw.mapper.InvitationMapper">
+    <resultMap id="BaseResultMap" type="com.fotron.draw.entity.Invitation">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="invitation_num" property="invitationNum" jdbcType="INTEGER"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="expire_time" property="expireTime" jdbcType="TIMESTAMP"/>
+        <result column="open_time" property="openTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <!--一对多 邀请表与加入表-->
+        <collection property="invitationJoinList" ofType="com.fotron.draw.entity.InvitationJoin" column="id"
+                    select="com.fotron.draw.mapper.InvitationJoinMapper.selectByInvitationId"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM  dw_invitation WHERE id=#{id} ORDER BY id DESC limit 1
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT  * from dw_invitation where user_id=#{userId} and type=#{type} order by id desc
+    </select>
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fotron.draw.mapper.GameMapper">
+    <resultMap id="BaseMap" type="com.fotron.draw.entity.Game">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="game_name" property="gameName" jdbcType="VARCHAR"/>
+        <result column="game_desc" property="gameDesc" jdbcType="VARCHAR"/>
+        <result column="app_id" property="appId" jdbcType="VARCHAR"/>
+        <result column="two_dimension_code" property="twoDimensionCode" jdbcType="VARCHAR"/>
+        <result column="transport_img" property="transportImg" jdbcType="VARCHAR"/>
+        <result column="skip_type" property="skipType" jdbcType="VARCHAR"/>
+        <result column="game_link" property="gameLink" jdbcType="VARCHAR"/>
+        <result column="game_img" property="gameImg" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <select id="selectRandomOne" resultMap="BaseMap">
+        SELECT * FROM dw_game_random WHERE status=1 order by rand() LIMIT 1
+
+    </select>
+</mapper>

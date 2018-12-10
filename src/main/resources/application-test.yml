@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://rm-2ze5serzj90h4ogla.mysql.rds.aliyuncs.com:3306/wx_game_box?useUnicode=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useAffectedRows=true&serverTimezone=CTT
+    username: wuga_test
+    password: tsd@1234
+  redis:
+    host: 192.168.0.134
+    password: blockchains
+    port: 6379
+    database: 1
+
+#游戏榜钻石
+diamond:
+  diamondUrl: https://game-test.imsidang.com/api/guest/diamond  #获取钻石
+  diamondReportUrl: https://game-test.imsidang.com/api/guest/diamondReport  #钻石上报
+#用户中心登录
+user:
+  url : https://usercenter-test.imsidang.com/api/wx/v1/login  #用户中心
+phone:
+   recharge : https://bsb-test.imsidang.com/api/telrechange/phoneNumRecharge   #步数宝充值接口
+   callbackUrl : https://game-draw-test.bushubao.cn/api/phone/callback             #充值会费回调
+#默认头像
+defaultImage: https://rr.bushubao.cn/step_trade/game/game_20180827201414.png
+
+qiniu:
+  accessKey: ex9ynhyWX6RyknFQWl0RcMtf2VHElv62Dsa430Eb
+  secretKey: YN6DqetlJvkWVRyakVhc7vIEbNt-GavdLOkdSA2U
+  bucket:  test-uploads
+  path: http://pj1tfpjpr.bkt.clouddn.com
+#微信
+wx.appId: wxf63dc64e22435089
+wx.secret: feb0459f8627526b4a27ee5c69282d59
+#接口加解密
+draw:
+  appId: 20181130
+  appSecret: e665b8da93e44f40918953137eab49bd
+
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fotron.draw.mapper.DiamondRecordMapper">
+    <resultMap id="BaseResultMap" type="com.fotron.draw.entity.DiamondRecord">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="amount" property="amount" jdbcType="INTEGER"/>
+        <result column="action" property="action" jdbcType="INTEGER"/>
+        <result column="record_id" property="recordId" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="level_type" property="levelType" jdbcType="INTEGER"/>
+    </resultMap>
+    <!--查询用户邀请奖励和转盘奖励记录-->
+    <select id="selectList" resultMap="BaseResultMap">
+       select r.amount,r.action,r.create_time,r.action FROM  dw_diamond_record r WHERE r.user_id=#{userId} AND r.type=1 AND r.action!=1 ORDER BY r.id desc
+   </select>
+
+    <!--查询额度-->
+    <select id="selectDiamondCount" resultType="int">
+        select sum(amount) from dw_diamond_record where user_id=#{userId} and type=1 and level_type=2
+    </select>
+</mapper>
