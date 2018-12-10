@@ -1,7 +1,5 @@
 package com.fotron.draw.bean.req;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.google.errorprone.annotations.DoNotMock;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
