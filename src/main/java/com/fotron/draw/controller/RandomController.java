@@ -14,13 +14,11 @@ import com.fotrontimes.core.web.ApiRequest;
 import com.fotrontimes.core.web.ApiResponse;
 import com.fotrontimes.core.web.BaseController;
 import com.fotrontimes.utils.verification.annotation.SignVerification;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -31,6 +29,7 @@ import javax.annotation.Resource;
  */
 @RequestMapping("api/random")
 @RestController
+@Api(value = "随机的控制层")
 public class RandomController extends BaseController {
 
     @Resource
@@ -44,8 +43,9 @@ public class RandomController extends BaseController {
      * @param check
      * @return
      */
-    @PostMapping("lucky")
+    @RequestMapping(value = "/lucky",method = RequestMethod.POST)
     @SignVerification
+    @ApiOperation(value = "抽奖",notes = "-----")
     public ApiResponse lucky(@RequestBody @Validated ApiRequest<LuckyReq> data, BindingResult check) {
         super.checkParameters(check);
         ApiResponse result = ApiResponse.buildSuccess();
@@ -61,8 +61,9 @@ public class RandomController extends BaseController {
      * @param check
      * @return
      */
-    @PostMapping("open")
+    @RequestMapping(value = "/open",method = RequestMethod.POST)
     @SignVerification
+    @ApiOperation(value = "开奖",notes = "----")
     public ApiResponse open(@RequestBody @Validated ApiRequest<OpenReq> data, BindingResult check) {
         checkParameters(check);
         ApiResponse result = ApiResponse.buildSuccess();
@@ -76,7 +77,8 @@ public class RandomController extends BaseController {
      *
      * @return
      */
-    @GetMapping("game")
+    @RequestMapping(value = "/game",method = RequestMethod.GET)
+    @ApiOperation(value = "随机游戏",notes = "-----")
     public ApiResponse game() {
         ApiResponse result = ApiResponse.buildSuccess();
         Game game = this.randomService.game();
@@ -84,7 +86,12 @@ public class RandomController extends BaseController {
         return result;
     }
 
-    @GetMapping("good")
+    /**
+     * 随机产生一个商品
+     * @return
+     */
+    @RequestMapping(value = "/good",method = RequestMethod.GET)
+    @ApiOperation(value = "随机商品",notes = "----")
     public ApiResponse good(){
         ApiResponse result = ApiResponse.buildSuccess();
         Goods good = this.randomService.good();

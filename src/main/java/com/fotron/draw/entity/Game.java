@@ -1,5 +1,7 @@
 package com.fotron.draw.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -19,15 +21,18 @@ import java.util.Date;
  */
 @Table(name = "dw_game_random")
 @Data
+@ApiModel(value = "游戏响应")
 public class Game implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(value = "ID")
     private Integer id;
 
     /**
      * 游戏名称
      */
     @Column(name = "game_name")
+    @ApiModelProperty(value = "游戏名称")
     private String gameName;
 
     /**

@@ -1,5 +1,7 @@
 package com.fotron.draw.bean.req;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -11,7 +13,9 @@ import javax.validation.constraints.NotNull;
  * @description 抽奖参数
  */
 @Data
+@ApiModel(value = "抽奖请求体")
 public class LuckyReq {
     @NotEmpty(message = "用户id不能为空")
+    @ApiModelProperty(value = "userId", required = true)
     private String userId;
 }

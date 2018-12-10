@@ -1,4 +1,5 @@
 package com.fotron.draw;
+
 import io.swagger.annotations.Api;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,12 +11,12 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+
 /**
- * @author: yangkun
- * @createDate: 2018/12/5
- * @company: (C) Copyright fotron
- * @since: JDK 1.8
- * @Description:
+ * Swagger2配置类
+ * 在与spring boot集成时，放在与Application.java同级的目录下。
+ * 通过@Configuration注解，让Spring来加载该类配置。
+ * 再通过@EnableSwagger2注解来启用Swagger2。
  */
 @Configuration
 @EnableSwagger2
