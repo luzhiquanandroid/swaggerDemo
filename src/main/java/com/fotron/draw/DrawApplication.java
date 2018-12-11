@@ -12,7 +12,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableScheduling
 @EnableBaseCore
-@EnableSimpleVerification
+//@EnableSimpleVerification
 @EnableSwagger2
 public class DrawApplication extends SpringBootServletInitializer {
 

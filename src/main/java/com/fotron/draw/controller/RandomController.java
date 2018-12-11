@@ -16,6 +16,7 @@ import com.fotrontimes.core.web.BaseController;
 import com.fotrontimes.utils.verification.annotation.SignVerification;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ import javax.annotation.Resource;
  */
 @RequestMapping("api/random")
 @RestController
-@Api(value = "随机的控制层")
+@Api(value = "api/random", tags = {"抽奖模块"}, description = "随机的控制层")
 public class RandomController extends BaseController {
 
     @Resource
@@ -43,9 +44,9 @@ public class RandomController extends BaseController {
      * @param check
      * @return
      */
-    @RequestMapping(value = "/lucky",method = RequestMethod.POST)
+    @RequestMapping(value = "/lucky", method = RequestMethod.POST)
     @SignVerification
-    @ApiOperation(value = "抽奖",notes = "-----")
+    @ApiOperation(value = "抽奖", notes = "根据用户id，随机产生了一个类型")
     public ApiResponse lucky(@RequestBody @Validated ApiRequest<LuckyReq> data, BindingResult check) {
         super.checkParameters(check);
         ApiResponse result = ApiResponse.buildSuccess();
@@ -61,9 +62,9 @@ public class RandomController extends BaseController {
      * @param check
      * @return
      */
-    @RequestMapping(value = "/open",method = RequestMethod.POST)
+    @RequestMapping(value = "/open", method = RequestMethod.POST)
     @SignVerification
-    @ApiOperation(value = "开奖",notes = "----")
+    @ApiOperation(value = "开奖", notes = "----")
     public ApiResponse open(@RequestBody @Validated ApiRequest<OpenReq> data, BindingResult check) {
         checkParameters(check);
         ApiResponse result = ApiResponse.buildSuccess();
@@ -77,8 +78,8 @@ public class RandomController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/game",method = RequestMethod.GET)
-    @ApiOperation(value = "随机游戏",notes = "-----")
+    @RequestMapping(value = "/game", method = RequestMethod.GET)
+    @ApiOperation(value = "随机游戏", notes = "-----")
     public ApiResponse game() {
         ApiResponse result = ApiResponse.buildSuccess();
         Game game = this.randomService.game();
@@ -88,11 +89,12 @@ public class RandomController extends BaseController {
 
     /**
      * 随机产生一个商品
+     *
      * @return
      */
-    @RequestMapping(value = "/good",method = RequestMethod.GET)
-    @ApiOperation(value = "随机商品",notes = "----")
-    public ApiResponse good(){
+    @RequestMapping(value = "/good", method = RequestMethod.GET)
+    @ApiOperation(value = "随机商品", notes = "----")
+    public ApiResponse good() {
         ApiResponse result = ApiResponse.buildSuccess();
         Goods good = this.randomService.good();
         result.put("data", good);
