@@ -16,6 +16,6 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "抽奖请求体")
 public class LuckyReq {
     @NotEmpty(message = "用户id不能为空")
-    @ApiModelProperty(value = "userId", required = true)
+    @ApiModelProperty(value = "用户ID",required = true)
     private String userId;
 }

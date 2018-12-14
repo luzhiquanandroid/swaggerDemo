@@ -14,6 +14,8 @@ import com.fotron.draw.entity.Goods;
  */
 public interface RandomService {
     LuckyResp luck(LuckyReq luckyReq);
+    LuckyResp luck2(String userId);
+    LuckyResp luck4(String userId,int type);
 
     OpenResp open(OpenReq openReq);
 

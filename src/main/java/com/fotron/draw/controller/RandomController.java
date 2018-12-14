@@ -15,13 +15,17 @@ import com.fotrontimes.core.web.ApiResponse;
 import com.fotrontimes.core.web.BaseController;
 import com.fotrontimes.utils.verification.annotation.SignVerification;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import sun.net.www.protocol.http.HttpURLConnection;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * @author luzhiquan
@@ -44,6 +48,7 @@ public class RandomController extends BaseController {
      * @param check
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "/lucky", method = RequestMethod.POST)
     @SignVerification
     @ApiOperation(value = "抽奖", notes = "根据用户id，随机产生了一个类型")
@@ -53,6 +58,49 @@ public class RandomController extends BaseController {
         LuckyResp luck = this.randomService.luck(data.getData());
         result.put("data", luck);
         return result;
+    }
+
+    /**
+     * 随机抽奖2
+     */
+    @ResponseBody
+    @RequestMapping(value = "/lucky2", method = RequestMethod.POST)
+    @SignVerification
+    @ApiOperation(value = "抽奖2", notes = "根据用户id，随机产生了一个类型")
+    @ApiImplicitParam(paramType = "query", name = "userId", value = "用户ID", required = true, dataType = "String")
+    public LuckyResp lucky2(@RequestParam(value = "userId") String userId) {
+        LuckyResp luck = this.randomService.luck2(userId);
+        return luck;
+    }
+
+    /**
+     * 随机抽奖4
+     */
+    @ResponseBody
+    @RequestMapping(value = "/lucky4", method = RequestMethod.POST)
+    @SignVerification
+    @ApiOperation(value = "抽奖4", notes = "根据用户id，随机产生了一个类型")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "userId", value = "用户ID", required = true, dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "type", value = "类型", required = true, dataType = "int")
+    })
+    public LuckyResp lucky4(@RequestParam(value = "userId") String userId,
+                            @RequestParam(value = "type")  int type) {
+        LuckyResp luck = this.randomService.luck4(userId,type);
+        return luck;
+    }
+
+
+    /**
+     * 随机抽奖3
+     */
+    @ResponseBody
+    @RequestMapping(value = "/lucky3", method = RequestMethod.POST)
+    @SignVerification
+    @ApiOperation(value = "抽奖3", notes = "根据用户id，随机产生了一个类型")
+    public LuckyResp lucky3(@RequestBody LuckyReq data) {
+        LuckyResp luck = this.randomService.luck(data);
+        return luck;
     }
 
     /**

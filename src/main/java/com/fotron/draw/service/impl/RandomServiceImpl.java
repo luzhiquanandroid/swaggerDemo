@@ -141,6 +141,164 @@ public class RandomServiceImpl implements RandomService {
     }
 
     @Override
+    public LuckyResp luck2(String userId) {
+        Date now = new Date();
+        //判断是否存在用户  随机出现抽奖类型 存入所有记录表 默认是未开启
+        AllRecord allRecord = new AllRecord();
+        LuckyResp resp = new LuckyResp();
+        User user = this.userMapper.selectByUserId(userId);
+        if (user == null) {
+            throw new BusinessException(MyErrorCode.USER_IS_NULL);
+        }
+        //获取钻石
+        Long allDiamond = user.getDiamond();
+        //钻石不足
+        if (allDiamond < Constant.DIAMOND_UPORDOWN.DIAMOND_DOWN) {
+            throw new BusinessException(MyErrorCode.DIAMOND_NOT_ENOUGH);
+        }
+        //进行钻石的消耗
+        DiamondRecord diamondRecord = new DiamondRecord();
+        diamondRecord.setUserId(user.getUserId());
+        diamondRecord.setType(Constant.DIAMOND_TYPE.DOWN);
+        diamondRecord.setCreateTime(now);
+        //交易动作 1抽好运小程序幸运奖  2抽好运小程序钻石奖  3赚好运抽奖消耗
+        diamondRecord.setUpdateTime(now);
+        diamondRecord.setAction(Constant.THREE);
+        diamondRecord.setAmount(Constant.DIAMOND_UPORDOWN.DIAMOND_DOWN);
+        this.diamondRecordMapper.insertSelective(diamondRecord);
+        //总钻石的修改
+        this.userMapper.updateDiamondByUserId(user.getUserId(),
+                user.getDiamond() - Constant.DIAMOND_UPORDOWN.DIAMOND_DOWN, user.getDiamond(), new Date());
+        int type = this.randomUtil.randomType();
+        user.setDiamond(user.getDiamond() - Constant.DIAMOND_UPORDOWN.DIAMOND_DOWN);
+
+        //1:助力话费 2:宝箱  3:随机红包  4:钻石  5:幸运奖
+        allRecord.setUserId(userId);
+        allRecord.setIsOpen(Constant.LUCK_IS_OPEN.NOT_OPEN);
+        allRecord.setCreateTime(now);
+        allRecord.setUpdateTime(now);
+        allRecord.setType(type);
+        int rows = this.allRecordMapper.insertSelective(allRecord);
+        log.info("get before id----" + allRecord.getId());
+        if (rows > 0) {
+            //插入成功
+            log.info("get after id----" + allRecord.getId());
+            resp.setId(allRecord.getId());
+            resp.setType(type);
+            if (type == Constant.LUCK_TYPE.FOUR) {
+                //如果转到钻石，直接开，进行添加上报
+                allRecord.setIsOpen(Constant.LUCK_IS_OPEN.OPEN);
+                allRecord.setUpdateTime(now);
+                this.allRecordMapper.updateByPrimaryKeySelective(allRecord);
+                DiamondRecord diamondRecordUp = new DiamondRecord();
+                diamondRecordUp.setUserId(user.getUserId());
+                diamondRecordUp.setType(Constant.DIAMOND_TYPE.UP);
+                //交易动作 1抽好运小程序幸运奖  2抽好运小程序钻石奖  3赚好运抽奖消耗
+                diamondRecordUp.setCreateTime(now);
+                diamondRecordUp.setAction(Constant.TWO);
+                diamondRecordUp.setUpdateTime(now);
+                diamondRecordUp.setRecordId(allRecord.getId());
+                diamondRecordUp.setAmount(Constant.DIAMOND_UPORDOWN.DIAMOND_UP);
+                this.diamondRecordMapper.insertSelective(diamondRecordUp);
+                //总钻石添加 大于100设置为100 小于 就是当前钻石数量
+                //1.0.1需求钻石数量无上线
+//                long afterDiamond = (user.getDiamond() + Constant.DIAMOND_UPORDOWN.DIAMOND_UP) > Constant.DIAMOND_UPORDOWN.DIAMOND_ALL
+//                        ? Constant.DIAMOND_UPORDOWN.DIAMOND_ALL : (user.getDiamond() + Constant.DIAMOND_UPORDOWN.DIAMOND_UP);
+                long afterDiamond = user.getDiamond() + Constant.DIAMOND_UPORDOWN.DIAMOND_UP;
+                int i = this.userMapper.updateDiamondByUserId(user.getUserId(), afterDiamond, user.getDiamond(), new Date());
+                if (i > 0) {
+                    resp.setId(allRecord.getId());
+                    resp.setType(type);
+                    resp.setDiamondNum((int) Constant.DIAMOND_UPORDOWN.DIAMOND_UP);
+                } else {
+                    log.error("更新钻石失败");
+                    throw new BusinessException(MyErrorCode.UPDATE_AMOUNT_FAIL);
+                }
+            }
+        }
+        return resp;
+    }
+
+    @Override
+    public LuckyResp luck4(String userId, int types) {
+        Date now = new Date();
+        //判断是否存在用户  随机出现抽奖类型 存入所有记录表 默认是未开启
+        AllRecord allRecord = new AllRecord();
+        LuckyResp resp = new LuckyResp();
+        User user = this.userMapper.selectByUserId(userId);
+        if (user == null && types == 1) {
+            throw new BusinessException(MyErrorCode.USER_IS_NULL);
+        }
+        //获取钻石
+        Long allDiamond = user.getDiamond();
+        //钻石不足
+        if (allDiamond < Constant.DIAMOND_UPORDOWN.DIAMOND_DOWN) {
+            throw new BusinessException(MyErrorCode.DIAMOND_NOT_ENOUGH);
+        }
+        //进行钻石的消耗
+        DiamondRecord diamondRecord = new DiamondRecord();
+        diamondRecord.setUserId(user.getUserId());
+        diamondRecord.setType(Constant.DIAMOND_TYPE.DOWN);
+        diamondRecord.setCreateTime(now);
+        //交易动作 1抽好运小程序幸运奖  2抽好运小程序钻石奖  3赚好运抽奖消耗
+        diamondRecord.setUpdateTime(now);
+        diamondRecord.setAction(Constant.THREE);
+        diamondRecord.setAmount(Constant.DIAMOND_UPORDOWN.DIAMOND_DOWN);
+        this.diamondRecordMapper.insertSelective(diamondRecord);
+        //总钻石的修改
+        this.userMapper.updateDiamondByUserId(user.getUserId(),
+                user.getDiamond() - Constant.DIAMOND_UPORDOWN.DIAMOND_DOWN, user.getDiamond(), new Date());
+        int type = this.randomUtil.randomType();
+        user.setDiamond(user.getDiamond() - Constant.DIAMOND_UPORDOWN.DIAMOND_DOWN);
+
+        //1:助力话费 2:宝箱  3:随机红包  4:钻石  5:幸运奖
+        allRecord.setUserId(userId);
+        allRecord.setIsOpen(Constant.LUCK_IS_OPEN.NOT_OPEN);
+        allRecord.setCreateTime(now);
+        allRecord.setUpdateTime(now);
+        allRecord.setType(type);
+        int rows = this.allRecordMapper.insertSelective(allRecord);
+        log.info("get before id----" + allRecord.getId());
+        if (rows > 0) {
+            //插入成功
+            log.info("get after id----" + allRecord.getId());
+            resp.setId(allRecord.getId());
+            resp.setType(type);
+            if (type == Constant.LUCK_TYPE.FOUR) {
+                //如果转到钻石，直接开，进行添加上报
+                allRecord.setIsOpen(Constant.LUCK_IS_OPEN.OPEN);
+                allRecord.setUpdateTime(now);
+                this.allRecordMapper.updateByPrimaryKeySelective(allRecord);
+                DiamondRecord diamondRecordUp = new DiamondRecord();
+                diamondRecordUp.setUserId(user.getUserId());
+                diamondRecordUp.setType(Constant.DIAMOND_TYPE.UP);
+                //交易动作 1抽好运小程序幸运奖  2抽好运小程序钻石奖  3赚好运抽奖消耗
+                diamondRecordUp.setCreateTime(now);
+                diamondRecordUp.setAction(Constant.TWO);
+                diamondRecordUp.setUpdateTime(now);
+                diamondRecordUp.setRecordId(allRecord.getId());
+                diamondRecordUp.setAmount(Constant.DIAMOND_UPORDOWN.DIAMOND_UP);
+                this.diamondRecordMapper.insertSelective(diamondRecordUp);
+                //总钻石添加 大于100设置为100 小于 就是当前钻石数量
+                //1.0.1需求钻石数量无上线
+//                long afterDiamond = (user.getDiamond() + Constant.DIAMOND_UPORDOWN.DIAMOND_UP) > Constant.DIAMOND_UPORDOWN.DIAMOND_ALL
+//                        ? Constant.DIAMOND_UPORDOWN.DIAMOND_ALL : (user.getDiamond() + Constant.DIAMOND_UPORDOWN.DIAMOND_UP);
+                long afterDiamond = user.getDiamond() + Constant.DIAMOND_UPORDOWN.DIAMOND_UP;
+                int i = this.userMapper.updateDiamondByUserId(user.getUserId(), afterDiamond, user.getDiamond(), new Date());
+                if (i > 0) {
+                    resp.setId(allRecord.getId());
+                    resp.setType(type);
+                    resp.setDiamondNum((int) Constant.DIAMOND_UPORDOWN.DIAMOND_UP);
+                } else {
+                    log.error("更新钻石失败");
+                    throw new BusinessException(MyErrorCode.UPDATE_AMOUNT_FAIL);
+                }
+            }
+        }
+        return resp;
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class, transactionManager = "primaryDataSourceTransactionManager")
     public OpenResp open(OpenReq openReq) {
         //查询id是否存在 根据类型进行开除的奖  加入话费记录表  修改所有记录表的is_open状态，更新时间
