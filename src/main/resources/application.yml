@@ -11,7 +11,7 @@ spring:
     proxy-target-class: true
 
 server:
-  port: 9500
+  port: 9700
 pagehelper:
   reasonable: flase
 
